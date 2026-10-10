@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You're invited</title>
+<meta name="description" content="Please reply to our wedding invitation.">
+<!-- Link preview for WhatsApp / iMessage. Replace og.jpg with the image you want shown. -->
+<meta property="og:title" content="You're invited">
+<meta property="og:description" content="Saturday, November 7, 2026 · Toronto. Please reply by October 28.">
+<meta property="og:image" content="og.jpg">
+<meta property="og:type" content="website">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+:root{
+  --table:#dddad4;
+  --plank:#d3d0c9;
+  --paper:#fcfbf7;
+  --ink:#1d1c1a;
+  --ink-soft:#5d5a55;
+  --kraft:#a47f63;
+  --kraft-dark:#8c6a51;
+  --wax:#7b2f35;
+  --error:#9b2c2c;
+  --script:'Pinyon Script', cursive;
+  --serif:'Cormorant Garamond', Georgia, serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;min-height:100%}
+body{
+  font-family:var(--serif);color:var(--ink);font-size:18px;line-height:1.5;
+  background-color:var(--table);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .45  0 0 0 0 .43  0 0 0 0 .4  0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(90deg, transparent 0 179px, var(--plank) 179px 181px);
+  -webkit-font-smoothing:antialiased;
+}
+.stage{min-height:100vh;min-height:100svh;display:grid;place-items:center;padding:32px 16px;overflow-x:clip}
+
+/* ---------- Envelope ---------- */
+.envelope-wrap{display:grid;justify-items:center;gap:20px;transition:opacity .45s ease, transform .45s ease}
+.envelope{
+  position:relative;width:min(88vw,440px);aspect-ratio:1.45/1;border:0;padding:0;cursor:pointer;
+  background:var(--kraft);border-radius:3px;perspective:1200px;
+  box-shadow:0 1px 1px rgba(0,0,0,.15),0 24px 40px -22px rgba(50,35,20,.55);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .3  0 0 0 0 .2  0 0 0 0 .1  0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.envelope:focus-visible{outline:2px solid var(--ink);outline-offset:6px}
+.envelope .peek{
+  position:absolute;left:7%;right:7%;top:8%;height:80%;background:var(--paper);border-radius:2px;
+  transition:transform .7s cubic-bezier(.2,.7,.2,1) .35s;z-index:1;
+}
+.envelope .pocket{
+  position:absolute;inset:0;z-index:2;border-radius:3px;background:inherit;
+  clip-path:polygon(0 0,50% 52%,100% 0,100% 100%,0 100%);
+}
+.envelope .flap{
+  position:absolute;left:0;right:0;top:0;height:60%;z-index:3;background:var(--kraft-dark);
+  background-image:inherit;clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top center;transition:transform .5s ease, z-index 0s .25s;
+}
+.envelope .to{
+  position:absolute;z-index:4;left:0;right:0;bottom:9%;text-align:center;color:#2b2119;
+  font-family:var(--script);font-size:clamp(28px,7vw,40px);line-height:1;
+}
+.seal{
+  position:absolute;z-index:5;left:50%;top:55%;width:66px;height:66px;margin:-33px 0 0 -33px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#9a4248,var(--wax) 55%,#5c2025);
+  box-shadow:0 2px 4px rgba(0,0,0,.35), inset 0 0 0 5px rgba(0,0,0,.08);
+  display:grid;place-items:center;color:#f2dfd6;font-family:var(--script);font-size:24px;
+  transition:opacity .3s ease;
+}
+.tap{font-style:italic;color:var(--ink-soft);font-size:17px;letter-spacing:.02em}
+.opened .flap{transform:rotateX(180deg);z-index:0}
+.opened .seal{opacity:0}
+.opened .peek{transform:translateY(-38%)}
+.envelope-wrap.gone{opacity:0;transform:translateY(24px)}
+
+/* ---------- Card ---------- */
+.card-scene{width:min(1000px,100%);perspective:2000px;display:none}
+.card-scene.show{display:block;animation:rise .6s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.card{display:grid;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.3,.1,.2,1)}
+.card.flipped{transform:rotateY(180deg)}
+.face{
+  grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  background:var(--paper);border-radius:2px;padding:clamp(28px,5vw,64px) clamp(22px,5vw,64px);
+  box-shadow:0 1px 1px rgba(0,0,0,.12),0 30px 50px -28px rgba(50,35,20,.5);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.75' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .5  0 0 0 0 .45  0 0 0 0 .4  0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.back{transform:rotateY(180deg)}
+.front{display:grid;grid-template-columns:1fr 1px 1fr;gap:clamp(28px,5vw,60px);align-items:start}
+.divider{background:var(--ink);width:1px;align-self:stretch}
+
+.script{font-family:var(--script);font-weight:400;line-height:1.05;margin:0}
+.caps{text-transform:uppercase;letter-spacing:.2em;font-size:14px;font-weight:500;margin:0}
+.center{text-align:center}
+
+.invite{text-align:center}
+.invite .lead{font-size:clamp(40px,6vw,58px)}
+.invite .names{font-size:clamp(52px,8.5vw,78px);margin:18px 0 6px}
+.invite .amp{display:block;font-size:.55em;margin:4px 0}
+.invite .date{margin-top:14px}
+.sprig{width:70px;height:auto;display:block;margin:20px auto 18px;color:var(--ink)}
+.day{list-style:none;padding:0;margin:8px auto 0;max-width:340px;text-align:center}
+.day li{padding:14px 0;border-top:1px solid rgba(29,28,26,.18)}
+.day li:first-child{border-top:0}
+.day .t{display:block}
+.day .what{font-size:22px;font-style:italic;display:block}
+.day .where{color:var(--ink-soft);font-size:16px}
+
+/* ---------- Reply form ---------- */
+.reply h2{font-size:clamp(54px,8vw,74px);text-align:center}
+.reply .by{text-align:center;margin:10px 0 28px}
+.names-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.blank{display:grid;justify-items:center}
+.blank input{
+  width:100%;border:0;border-bottom:1px solid var(--ink);background:transparent;padding:6px 2px;
+  font:500 20px/1.3 var(--serif);color:var(--ink);text-align:center;border-radius:0;
+}
+.blank input:focus{outline:none;border-bottom-width:2px;padding-bottom:5px}
+.blank small{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
+fieldset{border:0;padding:0;margin:26px 0 0;min-width:0}
+legend{padding:0;margin:0 0 12px;width:100%;text-align:center}
+.choice{display:flex;align-items:center;gap:14px;padding:6px 0;cursor:pointer;width:max-content;max-width:100%;margin:0 auto}
+.choices-col{display:grid;justify-content:center}
+.choices-col .choice{margin:0}
+.choice input{position:absolute;opacity:0;width:1px;height:1px}
+.dot{
+  width:20px;height:20px;border:1px solid var(--ink);border-radius:50%;flex:none;position:relative;
+}
+.dot::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--ink);transform:scale(0);transition:transform .2s ease}
+.choice input:checked + .dot::after{transform:scale(1)}
+.choice input:focus-visible + .dot, .choice input:focus-visible + .line{outline:2px solid var(--ink);outline-offset:3px}
+.food-grid{display:grid;grid-template-columns:repeat(2,max-content);justify-content:center;column-gap:36px;row-gap:4px}
+.food-grid .choice{margin:0}
+.line{display:inline-block;width:34px;height:22px;border-bottom:1px solid var(--ink);position:relative;flex:none}
+.line::after{
+  content:"x";position:absolute;left:8px;bottom:-4px;font-family:var(--script);font-size:30px;line-height:1;
+  opacity:0;transform:scale(.4) rotate(-12deg);transition:opacity .15s ease, transform .2s ease;
+}
+.choice input:checked + .line::after{opacity:1;transform:scale(1) rotate(-8deg)}
+.choice .lbl{text-transform:uppercase;letter-spacing:.18em;font-size:15px}
+.reveal{display:none}
+.reveal.on{display:block}
+.extra{margin-top:24px;display:grid;gap:18px}
+.err{color:var(--error);text-align:center;min-height:1.5em;margin:18px 0 0;font-size:16px}
+.send{
+  display:block;margin:12px auto 0;border:1px solid var(--ink);background:transparent;color:var(--ink);
+  font:600 15px/1 var(--serif);letter-spacing:.22em;text-transform:uppercase;padding:16px 30px;cursor:pointer;
+  transition:background .2s ease,color .2s ease;
+}
+.send:hover{background:var(--ink);color:var(--paper)}
+.send:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+.send[disabled]{opacity:.55;cursor:wait}
+.hp{position:absolute;left:-9999px}
+
+/* ---------- Back of card ---------- */
+.back{display:grid;grid-template-rows:auto 1fr;min-height:100%}
+.stamp-row{display:flex;justify-content:flex-end}
+.stamp{width:110px;height:130px;border:1px solid var(--ink);display:grid;place-items:center;position:relative}
+.stamp .placeholder{font-size:13px;letter-spacing:.2em;text-transform:uppercase;text-align:center;line-height:1.7}
+.postmark{position:absolute;left:-44px;top:18px;width:170px;color:var(--ink);opacity:0;transform:scale(1.6) rotate(-14deg)}
+.card.flipped .postmark{animation:thunk .35s ease-out .85s forwards}
+.card.flipped .stamp .placeholder{opacity:0;transition:opacity .3s ease .85s}
+@keyframes thunk{to{opacity:.82;transform:scale(1) rotate(-14deg)}}
+.back-body{text-align:center;max-width:520px;margin:0 auto;padding:10px 0 20px}
+.back-body .script.big{font-size:clamp(40px,8vw,72px)}
+.back-body .msg{font-size:21px;margin:18px auto 0;max-width:30ch}
+.address{margin-top:26px;padding-top:22px;border-top:1px solid rgba(29,28,26,.18)}
+.address p{margin:6px 0}
+.links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.links a,.links button{
+  border:1px solid var(--ink);background:transparent;color:var(--ink);text-decoration:none;cursor:pointer;
+  font:600 13px/1 var(--serif);letter-spacing:.2em;text-transform:uppercase;padding:13px 18px;
+}
+.links a:hover,.links button:hover{background:var(--ink);color:var(--paper)}
+.change{margin-top:26px;background:none;border:0;color:var(--ink-soft);font:italic 17px var(--serif);text-decoration:underline;cursor:pointer}
+.closed{margin-top:20px;font-style:italic;color:var(--ink-soft);text-align:center}
+
+@media (max-width:760px){
+  body{font-size:17px}
+  .front{grid-template-columns:1fr}
+  .divider{width:auto;height:1px;margin:4px 12%}
+  .stage.card-mode{place-items:start center;padding-top:20px}
+  .postmark{left:-38px;top:22px;width:150px}
+}
+@media (max-width:380px){
+  .names-row{grid-template-columns:1fr}
+  .food-grid{grid-template-columns:max-content}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:0s!important;animation-duration:0s!important;animation-delay:0s!important}
+}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <!-- Envelope -->
+  <div class="envelope-wrap" id="envWrap">
+    <button class="envelope" id="envelope" aria-label="Open your invitation">
+      <span class="peek"></span>
+      <span class="pocket"></span>
+      <span class="flap"></span>
+      <span class="seal" id="seal"></span>
+      <span class="to" id="envTo">You're invited</span>
+    </button>
+    <p class="tap">Tap to open</p>
+  </div>
+
+  <!-- Card -->
+  <div class="card-scene" id="scene">
+    <div class="card" id="card">
+
+      <!-- FRONT: invitation + reply -->
+      <div class="face front" id="front">
+        <section class="invite" aria-labelledby="names">
+          <p class="script lead">Together with friends</p>
+          <svg class="sprig" viewBox="0 0 80 40" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+            <path d="M6 32 C 26 26, 46 18, 74 6"/>
+            <path d="M24 26 C 22 18, 26 12, 32 9 C 33 16, 30 22, 24 26 Z"/>
+            <path d="M38 20 C 37 12, 42 6, 48 4 C 48 11, 45 17, 38 20 Z"/>
+            <path d="M30 24 C 36 30, 44 31, 50 29 C 45 24, 38 22, 30 24 Z"/>
+            <path d="M46 16 C 52 22, 60 22, 66 19 C 61 14, 54 13, 46 16 Z"/>
+          </svg>
+          <h1 class="script names" id="names"></h1>
+          <p class="caps">invite you to celebrate their marriage</p>
+          <p class="caps date" id="dateText"></p>
+          <ol class="day" id="schedule"></ol>
+        </section>
+
+        <div class="divider" aria-hidden="true"></div>
+
+        <form class="reply" id="form" novalidate>
+          <h2 class="script">please reply</h2>
+          <p class="caps by" id="replyBy"></p>
+
+          <div class="names-row">
+            <label class="blank"><input id="first" name="first" autocomplete="given-name" maxlength="60" required><small>first name</small></label>
+            <label class="blank"><input id="last" name="last" autocomplete="family-name" maxlength="60" required><small>last name</small></label>
+          </div>
+
+          <fieldset>
+            <legend class="sr-only" style="position:absolute;left:-9999px">Will you attend?</legend>
+            <div class="choices-col">
+              <label class="choice"><input type="radio" name="attending" value="yes"><span class="dot"></span><span class="lbl">Happily accepts</span></label>
+              <label class="choice"><input type="radio" name="attending" value="no"><span class="dot"></span><span class="lbl">Regretfully declines</span></label>
+            </div>
+          </fieldset>
+
+          <div class="reveal" id="yesBlock">
+            <fieldset id="plusOneSet">
+              <legend class="caps">Bringing a guest?</legend>
+              <div class="choices-col">
+                <label class="choice"><input type="radio" name="plusOne" value="no"><span class="dot"></span><span class="lbl">Just me</span></label>
+                <label class="choice"><input type="radio" name="plusOne" value="yes"><span class="dot"></span><span class="lbl">Plus one</span></label>
+              </div>
+              <div class="reveal" id="plusOneNameWrap" style="margin-top:14px">
+                <label class="blank"><input id="plusOneName" maxlength="80" autocomplete="off"><small>your guest's name</small></label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend class="caps" id="foodLegend">Please select your meal</legend>
+              <div class="food-grid" id="foodMine"></div>
+            </fieldset>
+
+            <fieldset class="reveal" id="foodGuestSet">
+              <legend class="caps">Your guest's meal</legend>
+              <div class="food-grid" id="foodGuest"></div>
+            </fieldset>
+
+            <div class="extra">
+              <label class="blank"><input id="dietary" maxlength="200"><small>allergies or dietary needs</small></label>
+              <label class="blank"><input id="suggestion" maxlength="200"><small>a dish you'd love to see</small></label>
+            </div>
+          </div>
+
+          <input class="hp" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <p class="err" id="err" role="alert"></p>
+          <button class="send" id="send" type="submit">Send my reply</button>
+          <p class="closed" id="closedMsg" hidden></p>
+        </form>
+      </div>
+
+      <!-- BACK: confirmation -->
+      <div class="face back" id="back" aria-live="polite" hidden>
+        <div class="stamp-row">
+          <div class="stamp">
+            <span class="placeholder">place<br>stamp<br>here</span>
+            <svg class="postmark" viewBox="0 0 170 90" aria-hidden="true" fill="none" stroke="currentColor">
+              <circle cx="45" cy="45" r="38" stroke-width="2"/>
+              <circle cx="45" cy="45" r="30" stroke-width="1"/>
+              <text x="45" y="41" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="11" letter-spacing="2" fill="currentColor" stroke="none">RECEIVED</text>
+              <text x="45" y="57" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="10" letter-spacing="1.5" fill="currentColor" stroke="none" id="pmDate"></text>
+              <path d="M88 26 q10 -6 20 0 t20 0 t20 0 t20 0" stroke-width="2"/>
+              <path d="M88 40 q10 -6 20 0 t20 0 t20 0 t20 0" stroke-width="2"/>
+              <path d="M88 54 q10 -6 20 0 t20 0 t20 0 t20 0" stroke-width="2"/>
+              <path d="M88 68 q10 -6 20 0 t20 0 t20 0 t20 0" stroke-width="2"/>
+            </svg>
+          </div>
+        </div>
+        <div class="back-body">
+          <svg class="sprig" viewBox="0 0 80 40" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+            <path d="M6 32 C 26 26, 46 18, 74 6"/>
+            <path d="M24 26 C 22 18, 26 12, 32 9 C 33 16, 30 22, 24 26 Z"/>
+            <path d="M38 20 C 37 12, 42 6, 48 4 C 48 11, 45 17, 38 20 Z"/>
+            <path d="M30 24 C 36 30, 44 31, 50 29 C 45 24, 38 22, 30 24 Z"/>
+            <path d="M46 16 C 52 22, 60 22, 66 19 C 61 14, 54 13, 46 16 Z"/>
+          </svg>
+          <p class="script big">kindly delivered to</p>
+          <p class="caps" id="backNames" style="margin-top:12px"></p>
+          <p class="msg" id="backMsg"></p>
+          <div class="address" id="addressBlock" hidden>
+            <p class="caps">The party</p>
+            <p id="partyWhen"></p>
+            <p id="partyAddress" style="font-size:21px"></p>
+            <div class="links">
+              <a id="mapLink" href="#" target="_blank" rel="noopener">Open in maps</a>
+              <button type="button" id="icsBtn">Add to calendar</button>
+            </div>
+          </div>
+          <button class="change" id="changeBtn" type="button">Change my reply</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===================== EDIT THIS ===================== */
+const CONFIG = {
+  // Paste your Apps Script web app URL (ends in /exec). Leave empty to run in demo mode.
+  apiUrl: "https://script.google.com/macros/s/AKfycby39xiTfmCkmk7ar2psHv9IVXY-PFZlbHxIDvSlbV56YN4qDyZfxaW3Lq9pQT9n_tma/exec",
+  names: ["Mehdi", "Negar"],           // shown on the card and back
+  initials: "M&N",                       // on the wax seal
+  dateISO: "2026-11-07",
+  dateText: "Saturday, November 7, 2026",
+  replyBy: "October 28, 2026",
+  schedule: [
+    { time: "12:00 PM", what: "The signing", where: "Toronto" },
+    { time: "2:00 PM",  what: "Photographs", where: "University of Toronto, St. George" },
+    { time: "5:00 PM",  what: "The party",   where: "Address shared once you accept" }
+  ],
+  party: { start: "17:00", end: "23:00", title: "Wedding party" },  // used for the calendar file
+  foodOptions: ["Koobideh Kabab", "Joojeh Kabab", "Baghali Polo"],        // keep in sync with FOOD_OPTIONS in Code.gs
+  foodMultiSelect: false,   // true = guests can tick several options
+  plusOneDefault: true,     // allow plus-ones when the link has no personal token
+  demo: { address: "123 Example Street, Toronto, ON", mapsUrl: "" }
+};
+/* ===================================================== */
+
+const $ = id => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const token = (params.get("g") || "").trim().slice(0, 40);
+const storeKey = "rsvp:" + (token || "open");
+let guest = { name: "", plusOneAllowed: CONFIG.plusOneDefault, rsvpOpen: true };
+let lastResult = null;
+
+function store(get, val){
+  try { return get ? JSON.parse(localStorage.getItem(storeKey) || "null") : localStorage.setItem(storeKey, JSON.stringify(val)); }
+  catch(e){ return null; }
+}
+
+/* ---------- Render static content ---------- */
+function renderStatic(){
+  const [a, b] = CONFIG.names;
+  $("names").innerHTML = "";
+  $("names").append(a, Object.assign(document.createElement("span"), { className: "amp", textContent: "&" }), b);
+  $("dateText").textContent = CONFIG.dateText;
+  $("replyBy").textContent = "by " + CONFIG.replyBy;
+  $("seal").textContent = CONFIG.initials;
+  $("backNames").textContent = a + " & " + b;
+  const ol = $("schedule");
+  CONFIG.schedule.forEach(s => {
+    const li = document.createElement("li");
+    li.innerHTML = '<span class="caps t"></span><span class="what"></span><span class="where"></span>';
+    li.children[0].textContent = s.time;
+    li.children[1].textContent = s.what;
+    li.children[2].textContent = s.where;
+    ol.append(li);
+  });
+  const type = CONFIG.foodMultiSelect ? "checkbox" : "radio";
+  $("foodLegend").textContent = CONFIG.foodMultiSelect ? "Your meal (choose any)" : "Please select your meal";
+  [["foodMine", "food"], ["foodGuest", "foodGuest"]].forEach(([box, name]) => {
+    CONFIG.foodOptions.forEach(opt => {
+      const l = document.createElement("label");
+      l.className = "choice";
+      l.innerHTML = `<input type="${type}" name="${name}"><span class="line"></span><span class="lbl"></span>`;
+      l.querySelector("input").value = opt;
+      l.querySelector(".lbl").textContent = opt;
+      $(box).append(l);
+    });
+  });
+}
+
+/* ---------- Conditional fields ---------- */
+function val(name){ const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ""; }
+function vals(name){ return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(i => i.value); }
+function sync(){
+  const yes = val("attending") === "yes";
+  $("yesBlock").classList.toggle("on", yes);
+  $("plusOneSet").hidden = !guest.plusOneAllowed;
+  const p1 = yes && guest.plusOneAllowed && val("plusOne") === "yes";
+  $("plusOneNameWrap").classList.toggle("on", p1);
+  $("foodGuestSet").classList.toggle("on", p1);
+}
+$("form").addEventListener("change", sync);
+
+/* ---------- API ---------- */
+async function api(method, body){
+  if (!CONFIG.apiUrl){
+    await new Promise(r => setTimeout(r, 600));
+    if (method === "GET") return { ok: true, guest: token ? { name: "", plusOneAllowed: CONFIG.plusOneDefault } : null, rsvpOpen: true };
+    return { ok: true, attending: body.attending, reveal: body.attending === "yes" ? CONFIG.demo : null };
+  }
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), 15000);
+  try {
+    const res = method === "GET"
+      ? await fetch(CONFIG.apiUrl + "?action=init&g=" + encodeURIComponent(token), { signal: ctrl.signal })
+      : await fetch(CONFIG.apiUrl, { method: "POST", body: JSON.stringify(body), signal: ctrl.signal }); // text/plain: avoids CORS preflight
+    return await res.json();
+  } finally { clearTimeout(t); }
+}
+
+function fill(r){
+  if (!r) return;
+  $("first").value = r.firstName || "";
+  $("last").value = r.lastName || "";
+  const check = (name, v) => { const el = [...document.querySelectorAll(`input[name="${name}"]`)].find(i => i.value === v); if (el) el.checked = true; };
+  check("attending", r.attending);
+  check("plusOne", r.plusOne ? "yes" : "no");
+  (r.food || []).forEach(v => check("food", v));
+  (r.plusOneFood || []).forEach(v => check("foodGuest", v));
+  $("plusOneName").value = r.plusOneName || "";
+  $("dietary").value = r.dietary || "";
+  $("suggestion").value = r.suggestion || "";
+  sync();
+}
+
+async function init(){
+  renderStatic();
+  const saved = store(true);
+  if (saved){ fill(saved.payload); lastResult = saved.result; }
+  try {
+    const data = await api("GET");
+    if (data && data.ok){
+      guest.rsvpOpen = data.rsvpOpen !== false;
+      if (data.guest){
+        guest.plusOneAllowed = data.guest.plusOneAllowed !== false;
+        if (data.guest.name){
+          guest.name = data.guest.name;
+          $("envTo").textContent = "Dear " + data.guest.name.split(" ")[0];
+          if (!$("first").value){
+            const parts = data.guest.name.split(" ");
+            $("first").value = parts.shift();
+            $("last").value = parts.join(" ");
+          }
+        }
+      }
+      if (data.rsvp) fill(data.rsvp);
+      if (!guest.rsvpOpen){
+        $("send").hidden = true;
+        $("closedMsg").hidden = false;
+        $("closedMsg").textContent = "Replies are closed. Message us directly if anything has changed.";
+      }
+    } else if (data && data.error === "unknown_guest"){
+      $("err").textContent = "This invitation link isn't recognised. Please check the link you were sent.";
+    }
+  } catch(e){ /* page still works; submit will report errors */ }
+  sync();
+}
+
+/* ---------- Envelope ---------- */
+$("envelope").addEventListener("click", () => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  $("envelope").classList.add("opened");
+  setTimeout(() => {
+    $("envWrap").classList.add("gone");
+    setTimeout(() => {
+      $("envWrap").hidden = true;
+      $("stage").classList.add("card-mode");
+      $("scene").classList.add("show");
+      if (lastResult) showBack(store(true).payload, lastResult, false);
+    }, reduce ? 0 : 450);
+  }, reduce ? 0 : 1100);
+});
+
+/* ---------- Submit ---------- */
+$("form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const err = $("err");
+  err.textContent = "";
+  const payload = {
+    action: "rsvp",
+    token,
+    firstName: $("first").value.trim(),
+    lastName: $("last").value.trim(),
+    attending: val("attending"),
+    plusOne: guest.plusOneAllowed && val("plusOne") === "yes",
+    plusOneName: $("plusOneName").value.trim(),
+    food: vals("food"),
+    plusOneFood: vals("foodGuest"),
+    dietary: $("dietary").value.trim(),
+    suggestion: $("suggestion").value.trim(),
+    website: $("website").value
+  };
+  if (payload.attending !== "yes"){
+    Object.assign(payload, { plusOne: false, plusOneName: "", food: [], plusOneFood: [], dietary: "", suggestion: "" });
+  }
+  if (!payload.plusOne){ payload.plusOneName = ""; payload.plusOneFood = []; }
+
+  if (!payload.firstName || !payload.lastName){ err.textContent = "Please write your first and last name."; ($("first").value ? $("last") : $("first")).focus(); return; }
+  if (!payload.attending){ err.textContent = "Please choose accept or decline."; return; }
+  if (payload.attending === "yes"){
+    if (guest.plusOneAllowed && !val("plusOne")){ err.textContent = "Please tell us if you're bringing a guest."; return; }
+    if (!payload.food.length){ err.textContent = "Please choose your meal."; return; }
+    if (payload.plusOne && !payload.plusOneName){ err.textContent = "Please add your guest's name."; $("plusOneName").focus(); return; }
+    if (payload.plusOne && !payload.plusOneFood.length){ err.textContent = "Please choose your guest's meal."; return; }
+  }
+
+  const btn = $("send");
+  btn.disabled = true; btn.textContent = "Sending";
+  try {
+    const res = await api("POST", payload);
+    if (!res || !res.ok){
+      const msgs = {
+        closed: "Replies are closed. Message us directly if anything has changed.",
+        unknown_guest: "This invitation link isn't recognised. Please check the link you were sent.",
+        invalid: "Something in the form is missing. Please check each line and send again."
+      };
+      err.textContent = msgs[res && res.error] || "Your reply didn't go through. Please try again in a minute.";
+      return;
+    }
+    lastResult = res;
+    store(false, { payload, result: res });
+    showBack(payload, res, true);
+  } catch(e){
+    err.textContent = "Your reply didn't go through. Check your connection and send again.";
+  } finally {
+    btn.disabled = false; btn.textContent = "Send my reply";
+  }
+});
+
+/* ---------- Back of card ---------- */
+function showBack(payload, res, animate){
+  const first = payload.firstName || "friend";
+  const d = new Date();
+  $("pmDate").textContent = d.toLocaleDateString("en-CA", { month: "short", day: "numeric" }).toUpperCase() + " " + d.getFullYear();
+  if (payload.attending === "yes"){
+    $("backMsg").textContent = `Thank you, ${first}. We can't wait to celebrate with you` + (payload.plusOne ? ` and ${payload.plusOneName.split(" ")[0]}.` : ".");
+    const r = res.reveal;
+    if (r && r.address){
+      $("addressBlock").hidden = false;
+      $("partyWhen").textContent = CONFIG.dateText + ", from " + to12(CONFIG.party.start);
+      $("partyAddress").textContent = r.address;
+      $("mapLink").href = r.mapsUrl || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(r.address);
+    } else $("addressBlock").hidden = true;
+  } else {
+    $("backMsg").textContent = `Thank you for letting us know, ${first}. You'll be missed.`;
+    $("addressBlock").hidden = true;
+  }
+  flip(true, animate);
+}
+
+/* Flip the card. The hidden face is removed from layout once it's edge-on,
+   so the card always takes the height of the visible side. */
+function flip(toBack, animate){
+  const card = $("card"), reduce = !animate || matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const hideLater = (el, ms) => setTimeout(() => { el.hidden = true; }, ms);
+  if (toBack){
+    $("back").hidden = false;
+    if (reduce){ card.style.transition = "none"; card.classList.add("flipped"); $("front").hidden = true; void card.offsetWidth; card.style.transition = ""; }
+    else { requestAnimationFrame(() => card.classList.add("flipped")); hideLater($("front"), 450); }
+  } else {
+    $("front").hidden = false;
+    if (reduce){ card.classList.remove("flipped"); $("back").hidden = true; }
+    else { requestAnimationFrame(() => card.classList.remove("flipped")); hideLater($("back"), 450); }
+  }
+  window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+}
+$("changeBtn").addEventListener("click", () => flip(false, true));
+
+function to12(hhmm){ const [h, m] = hhmm.split(":").map(Number); return ((h % 12) || 12) + (m ? ":" + String(m).padStart(2, "0") : "") + (h < 12 ? " AM" : " PM"); }
+
+$("icsBtn").addEventListener("click", () => {
+  const day = CONFIG.dateISO.replace(/-/g, "");
+  const t = s => s.replace(":", "") + "00";
+  const loc = ($("partyAddress").textContent || "").replace(/,/g, "\\,");
+  const ics = [
+    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//wedding-rsvp//EN", "BEGIN:VEVENT",
+    "UID:" + day + "-party@wedding-rsvp",
+    "DTSTAMP:" + new Date().toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z",
+    "DTSTART;TZID=America/Toronto:" + day + "T" + t(CONFIG.party.start),
+    "DTEND;TZID=America/Toronto:" + day + "T" + t(CONFIG.party.end),
+    "SUMMARY:" + CONFIG.party.title + ": " + CONFIG.names.join(" & "),
+    "LOCATION:" + loc,
+    "END:VEVENT", "END:VCALENDAR"
+  ].join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
+  a.download = "wedding-party.ics";
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+});
+
+init();
+</script>
+</body>
+</html>
